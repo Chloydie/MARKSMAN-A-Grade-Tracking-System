@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="dashboard-container">
+        <h2 class="subject-title">{{ subjectname }}</h2>
+        
+        <div class="overview-container">
+            <div class="final-grade-container">
+                <p class="final-grade-label">Final Grade:</p>
+                <input type="text" class="final-grade-input" value="{{ final_grade }}" disabled>
+            </div>
+        
+            <form method="POST" action="{{ url_for('dashboard', subjectname=subjectname) }}" class="percentage-goal-form">
+                <p class="percentage-goal-label">Percentage Goal:</p>
+                <input type="number" name="percentage_goal" class="percentage-goal-input" min="0" max="100" step="1"
+                value="{{ session.get('percentage_goal', '') }}" required>
+                <button type="submit" class="percentage-goal-button">Set Goal</button>
+            </form>
+        </div>
+        
+        <div class="centered-content">
+            <p class="grade-report-link">
+                <a href="{{ url_for('report', subjectname=subjectname, final_grade=final_grade) }}" class="black-button">Generate Report</a>
+            </p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('dashboard', subjectname=subjectname) }}">
+            <input type="hidden" name="subjectname" value="{{ subjectname }}">
+            <div id="dynamic-fields-container">
+                <div class="input-container">
+                    <input type="text" name="assessment_name[]" placeholder="Name of Assessment" autocomplete="off" required>
+                    <input type="number" name="assessment_score_1" placeholder="Score" autocomplete="off" required>
+                    <input type="number" name="assessment_total_1" placeholder="Total Score" autocomplete="off" required>
+                    <input type="number" name="assessment_weight_1" placeholder="Weight %" autocomplete="off" required>
+                    <button type="button" class="delete-assessment-button">Delete</button>
+                </div>
+            </div>            
+            <div class="two-buttons">
+                <button type="button" id="add-assessment-button">Add Assessment</button>
+                <button type="submit">Save Grades</button>
+            </div>
+        </form>
+        
+        <div class="grades-container">
+            <h3 class="grades-title">Your Grades</h3>
+            
+            {% if grades %}
+                <table class="grades-table">
+                    <thead>
+                        <tr>
+                            <th>Assessment Name</th>
+                            <th>Score</th>
+                            <th>Total Score</th>
+                            <th>Weight</th>
+                            <th>Grades</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for grade in grades %}
+                            <tr>
+                                <td>{{ grade['assessment_name'] }}</td>
+                                <td>{{ grade['score'] }}</td>
+                                <td>{{ grade['total_score'] }}</td>
+                                <td>{{ grade['weight'] }}</td>
+                                <td>{{ (grade['score'] / grade['total_score']) * grade['weight'] }}</td>
+                                <td>
+                                    <form action="{{ url_for('delete_grade', grade_id=grade['id'], subjectname=subjectname) }}" method="post">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-grades">No grades found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .dashboard-container {
+            text-align: left;
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        .subject-title {
+            font-size: 64px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .overview-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            margin-top: 50px;
+            font-size: 32px;
+        }
+
+        .final-grade-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-grade-label {
+            margin-right: 10px;
+        }
+
+        .final-grade-input {
+            font-size: 20px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 80px;
+            height: 50px;
+            text-align: center;
+        }
+
+        .percentage-goal-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+        }
+
+        .percentage-goal-label {
+            margin-right: 10px;
+        }
+
+        .percentage-goal-input {
+            font-size: 20px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 80px;
+            height: 50px;
+            text-align: center;
+        }
+
+        .percentage-goal-button {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            background-color: #000000;
+            cursor: pointer;
+        }
+
+        .grade-report-link {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #dynamic-fields-container {
+            margin-bottom: 10px;
+        }
+
+        #add-assessment-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            background-color: #000000;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .delete-assessment-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .two-buttons {
+            text-align: center;
+            margin-bottom: 90px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 2px solid #000;
+            border-radius: 8px;
+            width: 180px;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            background-color: #000000;
+            cursor: pointer;
+        }
+
+        .grades-title {
+            margin-bottom: 10px;
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .grades-table th,
+        .grades-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .no-grades {
+            margin-bottom: 20px;
+        }
+
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .centered-content {
+            text-align: center;
+        }
+
+        .add-grades-button {
+            margin-left: 10px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            cursor: pointer;
+        }
+
+        .grades-container {
+            text-align: center;
+        }
+
+        .black-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #000;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-bottom: 100px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dynamicFieldsContainer = document.getElementById('dynamic-fields-container');
+            var addAssessmentButton = document.getElementById('add-assessment-button');
+            var assessmentCounter = 1;
+    
+            addAssessmentButton.addEventListener('click', function() {
+                assessmentCounter++;
+                var newFields = `
+                    <div class="input-container">
+                        <input type="text" name="assessment_name_${assessmentCounter}" placeholder="Name of Assessment" required>
+                        <input type="number" name="assessment_score_${assessmentCounter}" placeholder="Score" required>
+                        <input type="number" name="assessment_total_${assessmentCounter}" placeholder="Total Score" required>
+                        <input type="number" name="assessment_weight_${assessmentCounter}" placeholder="Weight %" required>
+                        <button type="button" class="delete-assessment-button">Delete</button>
+                    </div>
+                `;
+                dynamicFieldsContainer.insertAdjacentHTML('beforeend', newFields);
+                registerDeleteButtons();
+                calculateFinalGrade();
+            });
+    
+            function registerDeleteButtons() {
+                var deleteAssessmentButtons = document.getElementsByClassName('delete-assessment-button');
+                for (var i = 0; i < deleteAssessmentButtons.length; i++) {
+                    deleteAssessmentButtons[i].addEventListener('click', function() {
+                        this.parentElement.remove();
+                        calculateFinalGrade();
+                    });
+                }
+            }
+    
+            function calculateFinalGrade() {
+                var grades = document.querySelectorAll('.grades-table tbody tr');
+                var sum = 0;
+                for (var i = 0; i < grades.length; i++) {
+                    var gradeElement = grades[i].querySelector('td:nth-child(5)');
+                    var grade = parseFloat(gradeElement.textContent);
+                    if (!isNaN(grade)) {
+                        sum += grade;
+                    }
+                }
+                var finalGradeInput = document.querySelector('.final-grade-input');
+                finalGradeInput.value = sum.toFixed(2);
+            }
+    
+            registerDeleteButtons();
+            calculateFinalGrade();
+        });
+    </script>
+    
+{% endblock %}

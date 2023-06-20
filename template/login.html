@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Remove scrolling */
+        }
+    
+        .container {
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+    
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+    
+        .messages li {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    
+        h2 {
+            font-size: 80px;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        form {
+            text-align: center;
+            margin-top: 140px;
+        }
+    
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #000000;
+            border-radius: 15px;
+        }
+    
+        button {
+            font-size: 20px;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        a {
+            font-size: 20px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .signin-signup {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 90px;
+        }
+        
+        .signin-signup a {
+            color: #000;
+        }
+    </style><style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Remove scrolling */
+        }
+    
+        .container {
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+    
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+    
+        .messages li {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    
+        h2 {
+            font-size: 80px;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        form {
+            text-align: center;
+            margin-top: 140px;
+        }
+    
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #000000;
+            border-radius: 15px;
+        }
+    
+        button {
+            font-size: 20px;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 90px;
+        }
+        .login-signup {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 70px;
+        }
+        
+        .login-signup a {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Login</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" autocomplete="off" required><br>
+            <input type="password" name="password" placeholder="Password" autocomplete="off" required><br>
+         <button type="submit">Login</button>
+         <div class="login-signup"></div>
+         <a href="{{ url_for('signup') }}" style="padding-top: 5px;">Don't Have An Account? Sign Up</a>
+        </form>
+    </div>
+</body>
+</html>

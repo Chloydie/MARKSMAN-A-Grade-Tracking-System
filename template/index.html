@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald&display=swap');
+    
+    h2 {
+        text-align: center;
+        font-size: 80px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .button-wrapper {
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    .button-wrapper a {
+        text-decoration: none;
+    }
+
+    .button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 20px 40px;
+        font-size: 20px;
+        border-radius: 4px;
+        cursor: pointer;        
+        margin-right: 10px;
+        text-decoration: none;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container img {
+        width: 300px;
+        height: auto;
+    }
+</style>
+
+<div class="container">
+  <img src="https://cdn.discordapp.com/attachments/891044840186478614/1113097565844549712/Logo.png" alt="Logo">
+  <h2>Always helping you <br> achieve your academic goals!</h2>
+</div>
+
+<div class="button-wrapper">
+    <a href="{{ url_for('signup') }}">
+        <button class="button">Sign Up</button>
+    </a>
+    <a href="{{ url_for('login') }}">
+        <button class="button">Login</button>
+    </a>
+</div>
+{% endblock %}

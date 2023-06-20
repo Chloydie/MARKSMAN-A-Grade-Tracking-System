@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="firstheading">Grade Report</div>
+
+    {% if final_grade is not none %}
+        <div class="final-grade-container">
+            <div class="final-grade">Final Grade: {{ final_grade }}</div>
+        </div>
+        
+        <div class="remarks">
+            <p><strong>Remarks:</strong></p>
+            <p>
+                {% if final_grade >= 90 %}
+                Congratulations! You were able to achieve your percentage goal. Keep up the great work and continue striving for excellence!
+                {% else %}
+                Unfortunately, you were not able to achieve your percentage goal this time. Don't be discouraged, though. Learn from your experience and use it as motivation to improve in the future.
+                {% endif %}
+            </p>
+        </div>
+        
+        {% if graph_html %}
+        <div id="graph-container" class="left-aligned">
+            {{ graph_html | safe }} 
+        </div>
+        {% endif %}
+
+    {% else %}
+        <p class="info-message">No grades found. Please add grades first.</p>
+    {% endif %}
+
+    <form method="GET" action="/dashboard">
+        <input type="hidden" name="subjectname" value="{{ subjectname }}">
+        {% for grade in grades %}
+            <input type="hidden" name="grades[]" value="{{ grade }}">
+        {% endfor %}
+        <button class="back-button" type="submit">Back to Dashboard</button>
+    </form>    
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .firstheading {
+        font-size: 52px;
+        font-weight: bolder;
+        text-align: center;
+        margin-top: 30px;
+    }
+    .final-grade-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-weight: bold;
+        margin-top: 100px;
+        margin-bottom: 20px;
+        margin-left: -500px;
+    }
+    .final-grade {
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+    .remarks {
+        text-align: left;
+        font-size: 18px;
+        margin-top: 50px;
+        margin-bottom: 20px;
+        margin-left: -500px;
+    }
+    .info-message {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .back-button {
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 7px 14px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 20px;
+        margin-top: 500px;
+        margin-left: -500px;
+        display: block;
+    }
+    .back-button:hover {
+        background-color: #0447a3;
+    }
+    #graph-container {
+        margin-left: 0;
+        text-align: left;  
+}
+    .left-aligned {
+        margin-left: 100px;
+        text-align: left;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var finalGradeElement = document.getElementById('final-grade');
+        if (finalGradeElement.textContent.trim() === 'Final Grade: NaN') {
+            finalGradeElement.textContent = 'No grades found.';
+        }
+    });
+</script>
+
+{% endblock %}

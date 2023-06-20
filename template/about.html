@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald&display=swap');
+
+    h1 {
+        color: #000000;
+        font-family: 'Gill Sans', sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .about-content {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    p {
+        color: #000000;
+        font-family: 'Gill Sans', sans-serif;
+        font-size: 16px;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1px;
+    }
+
+    .logo {
+        width: 300px;
+        margin-right: 10px;
+    }
+
+    .about-heading {
+        font-family: 'Gill Sans', sans-serif;
+        font-weight: bold;
+    }
+
+    .centered-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1px;
+    }
+
+    .author-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    .author {
+        margin: 0 100px;
+        text-align: center;
+    }
+
+    .author-image {
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .author-name {
+        font-size: 24px;
+        font-weight: bolder;
+        margin-top: 10px;
+    }
+
+    .author-description {
+        font-size: 18px;
+        margin-top: 5px;
+        font-weight: normal;
+    }
+
+    .author-email {
+        font-size: 18px;
+        margin-top: 5px;
+        color: #000000;
+        font-weight: normal;
+    }
+
+    .location-email-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .location {
+        margin-right: 10px;
+    }
+
+    .location-email-container p {
+        margin: 0;
+    }
+
+    .location-icon {
+        width: 25px;
+        height: 25px;
+        margin-top: 80px;
+    }
+
+    .email-icon {
+        width: 25px;
+        height: 25px;
+        margin-top: 80px;
+        margin-right: 10px;
+    }
+
+    .icon-text-container {
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+    }
+
+    .icon-text-container p {
+        margin-left: 5px;
+        margin-top: 80px;
+    }
+
+</style>
+<div class="about-content">
+    <div class="logo-container">
+        <h2 class="about-heading" style="font-size: 50px;">ABOUT MARKSMAN</h2>
+    </div>
+    <div class="centered-text">
+        <h1 style="font-size: 20px; margin-bottom: 5px;">Unlock your academic potential with MARKSMAN's state-of-the-art
+            platform which provides personalized</h1>
+        <h1 style="font-size: 20px; margin-bottom: 5px;">learning experiences tailored to your individual learning
+            style.</h1>
+    </div>
+
+    <div class="author-container">
+        <div class="author">
+            <img src="https://cdn.discordapp.com/attachments/1113531677399072788/1113531761301921802/chloyd.jpg"
+                alt="Justine Chloyd Lechico" class="author-image">
+            <p class="author-name">Justine Chloyd Lechico</p>
+            <p class="author-description">Pasay City, Philippines</p>
+            <p class="author-email">jmlechico@student.apc.edu.ph</p>
+        </div>
+        <div class="author">
+            <img src="https://cdn.discordapp.com/attachments/1113531677399072788/1115555923935645768/351310647_2636771939825262_2409048031175485980_n.jpg"
+                alt="Janice Maxene Salipande" class="author-image">
+            <p class="author-name">Janice Maxene Salipande</p>
+            <p class="author-description">Makati City, Philippines</p>
+            <p class="author-email">jdsalipande2@student.apc.edu.ph</p>
+        </div>
+        <div class="author">
+            <img src="https://cdn.discordapp.com/attachments/882908051647102976/1116341441921306694/345262911_1003415643982702_5386325267473084517_n.jpg"
+                alt="Don Marco Pinto" class="author-image">
+            <p class="author-name">Don Marco Pinto</p>
+            <p class="author-description">Taguig City, Philippines</p>
+            <p class="author-email">dcpinto2@student.apc.edu.ph</p>
+        </div>
+    </div>
+
+    <div class="location-email-container">
+        <div class="icon-text-container">
+            <div class="location">
+                <img src="https://cdn.discordapp.com/attachments/1113531677399072788/1113537959178801242/484167.png"
+                    alt="Location Icon" class="location-icon">
+            </div>
+            <p>Makati City, Philippines</p>
+        </div>
+        <div class="icon-text-container">
+            <div class="email">
+                <img src="https://cdn.discordapp.com/attachments/1113531677399072788/1113538213353639977/email_318-304876.png"
+                    alt="Email Icon" class="email-icon">
+            </div>
+            <p>matrix@gmail.com</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

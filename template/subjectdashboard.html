@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <h2 class="welcome-title">Welcome, {{ username }}</h2>
+
+    <div class="add-subject-container">
+        <h3 class="add-subject-title">Select your Subject:</h3>
+        <form method="POST" action="/subjectdashboard">
+            <div class="input-container">
+                <select name="subject" id="subject-dropdown" required>
+                    <option value="" disabled selected>Select</option>
+                    <option value="custom">+ Add New Subject</option>
+                </select>
+                <div id="custom-subject-container" style="display: none;">
+                    <label for="custom-subject">Subject Name:</label>
+                    <input type="text" name="custom_subject" autocomplete="off" id="custom-subject">
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="button" id="confirm-subject-btn" class="add-subject-btn" style="display: none;">Add Subject</button>
+                <button type="submit" id="add-subject-btn" class="confirm-subject-btn" disabled>Confirm Selection</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const select = document.getElementById('subject-dropdown');
+        const customSubjectContainer = document.getElementById('custom-subject-container');
+        const customSubjectInput = document.getElementById('custom-subject');
+        const addSubjectBtn = document.getElementById('add-subject-btn');
+        const confirmSubjectBtn = document.getElementById('confirm-subject-btn');
+
+        select.addEventListener('change', () => {
+            if (select.value === 'custom') {
+                customSubjectContainer.style.display = 'block';
+                addSubjectBtn.disabled = customSubjectInput.value.trim() === '';
+                confirmSubjectBtn.style.display = 'block';
+            } else {
+                customSubjectContainer.style.display = 'none';
+                addSubjectBtn.disabled = select.value === '';
+                confirmSubjectBtn.style.display = 'none';
+            }
+        });
+
+        customSubjectInput.addEventListener('input', () => {
+            addSubjectBtn.disabled = customSubjectInput.value.trim() === '';
+        });
+
+        confirmSubjectBtn.addEventListener('click', () => {
+            const newSubject = customSubjectInput.value.trim();
+            if (newSubject !== '') {
+                const option = document.createElement('option');
+                option.value = newSubject.toLowerCase();
+                option.text = newSubject;
+
+                const addNewSubjectOption = select.lastElementChild;
+                select.insertBefore(option, addNewSubjectOption);
+                select.value = newSubject.toLowerCase();
+
+                // Add subject name to the form submission
+                const hiddenSubjectNameInput = document.createElement('input');
+                hiddenSubjectNameInput.type = 'hidden';
+                hiddenSubjectNameInput.name = 'subject_name';
+                hiddenSubjectNameInput.value = newSubject;
+                document.querySelector('form').appendChild(hiddenSubjectNameInput);
+            }
+        });
+    </script>
+
+    <style>
+        .welcome-title,
+        .add-subject-title,
+        select,
+        label,
+        input[type="text"] {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .welcome-title {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-subject-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+        }
+
+        .add-subject-title {
+            margin-bottom: 10px;
+        }
+
+        .input-container {
+            margin-bottom: 10px;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #custom-subject-container {
+            margin-top: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .add-subject-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            background-color: #329d56;
+            cursor: pointer;
+        }
+
+        .confirm-subject-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            background-color: #000;
+            cursor: pointer;
+        }
+
+        .confirm-subject-btn {
+            margin-left: 10px;
+        }
+
+        #confirm-subject-btn[disabled],
+        #add-subject-btn[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+{% endblock %}

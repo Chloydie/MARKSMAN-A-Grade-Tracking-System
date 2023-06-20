@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Remove scrolling */
+        }
+    
+        .container {
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+    
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+    
+        .messages li {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    
+        h2 {
+            font-size: 80px;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        form {
+            text-align: center;
+            margin-top: 140px;
+        }
+    
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #000000;
+            border-radius: 15px;
+        }
+    
+        button {
+            font-size: 20px;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        a {
+            font-size: 20px;
+            text-decoration: none;
+        }
+        
+        .signin-signup {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 90px;
+        }
+        
+        .signin-signup a {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Sign up</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    
+        <form method="POST" action="/signup">
+            <input type="text" name="username" placeholder="Username" autocomplete="off" required><br>
+            <input type="password" name="password" placeholder="Password" autocomplete="off" required><br>
+            <div class="signin-signup">
+                <a href="{{ url_for('login') }}" style="padding-top: 5px;">Sign In instead</a>
+                <button type="submit">Sign up</button>
+               
+            </div>
+        </form>
+        
+       
+    </div>
+</body>
+</html>
