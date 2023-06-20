@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald&display=swap');
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        header {
+            background-color: black;
+            height: 53px;
+        }
+
+        nav {
+            overflow: hidden;
+            font-family: 'Oswald', sans-serif;
+            color: white;
+        }
+
+        .brand {
+            font-size: 30px;
+            float: left;
+            margin: 0px;
+            padding: 7px 16px;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            float: right;
+        }
+
+        nav li {
+            display: inline-block;
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <p class="brand">MARKSMAN</p>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            {% if 'username' in session %}
+                <li><a href="/subjectdashboard">Subjects</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/report">Grade Report</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<main>
+     {% block content %}
+     {% endblock %}
+    
+     {% block about_content %}
+     {% endblock %}
+</main>
+</body>
+</html>
