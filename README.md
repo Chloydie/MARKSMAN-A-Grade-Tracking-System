@@ -13,3 +13,5 @@ Imports needed:
 - os
 
 Please search on how to install and implement these individually. Make sure that it is working before you run app.py.
+
+Lastly, install all the files in the repository in the same format, template and static folder with the python folder outside. When running correctly, a database file will be created, access this database using an external app like DB Browser.
